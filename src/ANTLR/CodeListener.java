@@ -3,6 +3,7 @@ package ANTLR;
 import IR.Function;
 import IR.ProgramInfo;
 import IR.Variable;
+import org.antlr.v4.codegen.model.decl.Decl;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
@@ -19,6 +20,37 @@ public class CodeListener extends CBaseListener {
     }
 
     @Override
+    public void enterDeclarator(CParser.DeclaratorContext ctx) {
+        ProgramInfo programInfo = ProgramInfo.getInstance();
+        if(programInfo.currentlyReadingFunction){
+            System.out.println("Declarator: " + ctx.getText());
+            System.out.println(ctx.getParent().getText());
+        }
+    }
+
+    @Override
+    public void enterCompoundStatement(CParser.CompoundStatementContext ctx) {
+        ProgramInfo programInfo = ProgramInfo.getInstance();
+        if(programInfo.currentlyReadingFunction){
+            System.out.println("Compound Statement: " + ctx.getText());
+        }
+    }
+
+    @Override
+    public void enterDeclarationList(CParser.DeclarationListContext ctx) {
+        ProgramInfo programInfo = ProgramInfo.getInstance();
+        if(programInfo.currentlyReadingFunction){
+            System.out.println("DeclarationList: " + ctx.getText());
+        }
+    }
+
+    @Override
+    public void exitFunctionDefinition(CParser.FunctionDefinitionContext ctx) {
+        ProgramInfo programInfo = ProgramInfo.getInstance();
+        programInfo.currentlyReadingFunction = false;
+    }
+
+    @Override
     public void enterFunctionDefinition(CParser.FunctionDefinitionContext ctx) {
         ProgramInfo programInfo = ProgramInfo.getInstance();
 
@@ -26,26 +58,13 @@ public class CodeListener extends CBaseListener {
         ParseTree functionTree = ctx.getChild(1).getChild(0);
         int sizeOfFunTree = functionTree.getChildCount();
         String functionName = functionTree.getChild(0).getText();
-        System.out.println(functionName + "()");
         Function function = new Function(functionName, type);
-
+        programInfo.currentlyReadingFunction = true;
         if(sizeOfFunTree < 4){
             function.hasArgs(false);
         } else{
-            
-            ParseTree parameterTree = functionTree.getChild(2).getChild(0);
-            int parameterCount = parameterTree.getChildCount();
-            ArrayList<ParseTree> parameters = new ArrayList<>();
-
-            for (int i=0; i<parameterCount;i++){
-               if(i%2 == 0){
-                   parameters.add(parameterTree.getChild(i));
-               }
-            }
-
+            function.hasArgs(true);
         }
-
         programInfo.addFunction(function);
-        System.out.println("\n ----------- \n");
     }
 }

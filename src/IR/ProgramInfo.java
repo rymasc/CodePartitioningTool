@@ -8,11 +8,19 @@ public class ProgramInfo {
     private ArrayList<Function> functions = new ArrayList<>();
     private static ProgramInfo instance = null;
     private String programName;
+    public Boolean currentlyReadingFunction;
 
+    public enum ParseStatus{
+        FUNPARAMS, FUNBODY, GLOBAL
+    }
 
     private ProgramInfo(){
         programName = "";
+        //par
+        currentlyReadingFunction = false;
     }
+
+
 
     public static ProgramInfo getInstance(){
         if (instance == null){
