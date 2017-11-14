@@ -1,3 +1,4 @@
+import IR.ProgramInfo;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
@@ -17,6 +18,9 @@ public class Main {
         }
         try{
             filename = args[0];
+            ProgramInfo programInfo = ProgramInfo.getInstance();
+            String s = filename.replace("src\\","" );
+            programInfo.setProgramName(s.replace(".c", ""));
             CharStream in = CharStreams.fromPath(Paths.get(filename));
             Translator translator = new Translator(in);
             translator.translate();

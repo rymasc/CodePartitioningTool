@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class ProgramInfo {
 
-    ArrayList<Variable> variables = new ArrayList<>();
-    ArrayList<Function> functions = new ArrayList<>();
+    private ArrayList<Variable> variables = new ArrayList<>();
+    private ArrayList<Function> functions = new ArrayList<>();
     private static ProgramInfo instance = null;
     private String programName;
 
@@ -26,4 +26,23 @@ public class ProgramInfo {
         programName = name;
     }
 
+    public String getProgramName() {
+        return programName;
+    }
+
+    public void addGlobalVar(Variable v){
+        variables.add(v);
+    }
+
+    public void addFunction(Function f){
+        functions.add(f);
+    }
+
+    public ArrayList<Function> getFunctions() {
+        return functions;
+    }
+
+    public ArrayList<Variable> getVariables() {
+        return variables;
+    }
 }
