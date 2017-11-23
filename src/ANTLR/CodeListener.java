@@ -3,13 +3,9 @@ package ANTLR;
 import IR.Function;
 import IR.ProgramInfo;
 import IR.Variable;
-import org.antlr.v4.codegen.model.decl.Decl;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 import org.antlr.v4.runtime.tree.ParseTree;
-
-import java.util.ArrayList;
 
 public class CodeListener extends CBaseListener {
 
@@ -20,34 +16,21 @@ public class CodeListener extends CBaseListener {
     }
 
     @Override
-    public void enterDeclarator(CParser.DeclaratorContext ctx) {
-        ProgramInfo programInfo = ProgramInfo.getInstance();
-        if(programInfo.currentlyReadingFunction){
-            System.out.println("Declarator: " + ctx.getText());
-            System.out.println(ctx.getParent().getText());
-        }
-    }
-
-    @Override
-    public void enterCompoundStatement(CParser.CompoundStatementContext ctx) {
-        ProgramInfo programInfo = ProgramInfo.getInstance();
-        if(programInfo.currentlyReadingFunction){
-            System.out.println("Compound Statement: " + ctx.getText());
-        }
-    }
-
-    @Override
-    public void enterDeclarationList(CParser.DeclarationListContext ctx) {
-        ProgramInfo programInfo = ProgramInfo.getInstance();
-        if(programInfo.currentlyReadingFunction){
-            System.out.println("DeclarationList: " + ctx.getText());
-        }
-    }
-
-    @Override
     public void exitFunctionDefinition(CParser.FunctionDefinitionContext ctx) {
         ProgramInfo programInfo = ProgramInfo.getInstance();
         programInfo.currentlyReadingFunction = false;
+    }
+
+    @Override
+    public void enterParameterDeclaration(CParser.ParameterDeclarationContext ctx) {
+        ProgramInfo programInfo = ProgramInfo.getInstance();
+        Function currentFunction = programInfo.currentFunction;
+        String type = ctx.getChild(0).getText();
+        String name = ctx.getChild(1).getText();
+        Variable parameter = new Variable(type, name);
+        currentFunction.addParameter(parameter);
+        //System.out.println(currentFunction.getName() + " has " + currentFunction.getParameters().size() + " parameters");
+        programInfo.updateFunction(currentFunction);
     }
 
     @Override
@@ -60,6 +43,7 @@ public class CodeListener extends CBaseListener {
         String functionName = functionTree.getChild(0).getText();
         Function function = new Function(functionName, type);
         programInfo.currentlyReadingFunction = true;
+        programInfo.currentFunction = function;
         if(sizeOfFunTree < 4){
             function.hasArgs(false);
         } else{
@@ -67,4 +51,5 @@ public class CodeListener extends CBaseListener {
         }
         programInfo.addFunction(function);
     }
+
 }

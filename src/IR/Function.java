@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Function {
 
     private ArrayList<Variable> arguments;
+    private ArrayList<Variable> parameters;
     private String returnType;
     private String name;
     private boolean hasArgs;
@@ -12,29 +13,23 @@ public class Function {
     public Function(String functionName, String returnType){
         name = functionName;
         this.returnType = returnType;
+        parameters = new ArrayList<>();
+        arguments = new ArrayList<>();
     }
 
-    public void addArgument(Variable v){
-        arguments.add(v);
-    }
+    public void addParameter(Variable v){ parameters.add(v);}
 
-    public ArrayList<Variable> getArguments() {
-        return arguments;
-    }
+    public ArrayList<Variable> getParameters() { return parameters; }
 
-    public String getName(){
-        return name;
-    }
+    public void addArgument(Variable v){ arguments.add(v); }
 
-    public String getReturnType(){
-        return returnType;
-    }
+    public ArrayList<Variable> getArguments() { return arguments; }
 
-    public boolean hasArgs() {
-        return hasArgs;
-    }
+    public String getName() { return name; }
 
-    public void hasArgs(boolean bool){
-        hasArgs = bool;
-    }
+    public String getReturnType() { return returnType; }
+
+    public boolean hasArgs() { return hasArgs; }
+
+    public void hasArgs(boolean bool) { hasArgs = bool; }
 }

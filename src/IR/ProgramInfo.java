@@ -4,23 +4,19 @@ import java.util.ArrayList;
 
 public class ProgramInfo {
 
-    private ArrayList<Variable> variables = new ArrayList<>();
-    private ArrayList<Function> functions = new ArrayList<>();
+    private ArrayList<Variable> variables;
+    private ArrayList<Function> functions;
     private static ProgramInfo instance = null;
     private String programName;
     public Boolean currentlyReadingFunction;
-
-    public enum ParseStatus{
-        FUNPARAMS, FUNBODY, GLOBAL
-    }
+    public Function currentFunction;
 
     private ProgramInfo(){
         programName = "";
-        //par
         currentlyReadingFunction = false;
+        variables = new ArrayList<>();
+        functions = new ArrayList<>();
     }
-
-
 
     public static ProgramInfo getInstance(){
         if (instance == null){
@@ -34,23 +30,21 @@ public class ProgramInfo {
         programName = name;
     }
 
-    public String getProgramName() {
-        return programName;
+    public String getProgramName() { return programName; }
+
+    public void addGlobalVar(Variable v) { variables.add(v); }
+
+    public void addFunction(Function f) { functions.add(f); }
+
+    public void updateFunction(Function function){
+        for (Function f:functions) {
+            if(function.getName().equals(f.getName())){
+                f = function;
+            }
+        }
     }
 
-    public void addGlobalVar(Variable v){
-        variables.add(v);
-    }
+    public ArrayList<Function> getFunctions() { return functions; }
 
-    public void addFunction(Function f){
-        functions.add(f);
-    }
-
-    public ArrayList<Function> getFunctions() {
-        return functions;
-    }
-
-    public ArrayList<Variable> getVariables() {
-        return variables;
-    }
+    public ArrayList<Variable> getVariables() { return variables; }
 }
