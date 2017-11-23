@@ -9,12 +9,14 @@ public class Function {
     private String returnType;
     private String name;
     private boolean hasArgs;
+    private String sourceCode;
 
-    public Function(String functionName, String returnType){
+    public Function(String functionName, String returnType, String code){
         name = functionName;
         this.returnType = returnType;
         parameters = new ArrayList<>();
         arguments = new ArrayList<>();
+        sourceCode = code;
     }
 
     public void addParameter(Variable v){ parameters.add(v);}
