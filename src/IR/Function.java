@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Function {
 
-    private ArrayList<Variable> arguments;
     private ArrayList<Variable> parameters;
+    private ArrayList<FunctionCall> functionCalls;
     private String returnType;
     private String name;
     private boolean hasArgs;
@@ -15,17 +15,13 @@ public class Function {
         name = functionName;
         this.returnType = returnType;
         parameters = new ArrayList<>();
-        arguments = new ArrayList<>();
+        functionCalls = new ArrayList<>();
         sourceCode = code;
     }
 
     public void addParameter(Variable v){ parameters.add(v);}
 
     public ArrayList<Variable> getParameters() { return parameters; }
-
-    public void addArgument(Variable v){ arguments.add(v); }
-
-    public ArrayList<Variable> getArguments() { return arguments; }
 
     public String getName() { return name; }
 
