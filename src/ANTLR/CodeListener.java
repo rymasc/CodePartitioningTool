@@ -18,6 +18,13 @@ public class CodeListener extends CBaseListener {
     }
 
     @Override
+    public void enterFunctionCallDeclarator(CParser.FunctionCallDeclaratorContext ctx) {
+        ProgramInfo programInfo = ProgramInfo.getInstance();
+
+
+    }
+
+    @Override
     public void exitFunctionDefinition(CParser.FunctionDefinitionContext ctx) {
         ProgramInfo programInfo = ProgramInfo.getInstance();
         programInfo.currentlyReadingFunction = false;

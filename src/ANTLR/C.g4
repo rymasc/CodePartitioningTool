@@ -204,8 +204,13 @@ initDeclaratorList
     |   initDeclaratorList ',' initDeclarator
     ;
 
+functionCallDeclarator
+    : declarator '=' functionCall
+    ;
+
 initDeclarator
     :   declarator
+    |   functionCallDeclarator
     |   declarator '=' initializer
     ;
 
