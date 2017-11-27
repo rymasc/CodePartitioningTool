@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Function {
 
     private ArrayList<Variable> parameters;
-    private ArrayList<FunctionCall> functionCalls;
     private String returnType;
     private String name;
     private boolean hasArgs;
@@ -15,7 +14,6 @@ public class Function {
         name = functionName;
         this.returnType = returnType;
         parameters = new ArrayList<>();
-        functionCalls = new ArrayList<>();
         sourceCode = code;
     }
 

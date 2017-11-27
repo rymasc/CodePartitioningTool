@@ -6,6 +6,7 @@ public class ProgramInfo {
 
     private ArrayList<Variable> variables;
     private ArrayList<Function> functions;
+    private ArrayList<FunctionCall> functionCalls;
     private static ProgramInfo instance = null;
     private String programName;
     public Boolean currentlyReadingFunction;
@@ -16,6 +17,7 @@ public class ProgramInfo {
         currentlyReadingFunction = false;
         variables = new ArrayList<>();
         functions = new ArrayList<>();
+        functionCalls = new ArrayList<>();
     }
 
     public static ProgramInfo getInstance(){
