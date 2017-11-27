@@ -1,11 +1,14 @@
 package ANTLR;
 
 import IR.Function;
+import IR.FunctionCall;
 import IR.ProgramInfo;
 import IR.Variable;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.util.ArrayList;
 
 public class CodeListener extends CBaseListener {
 
@@ -20,8 +23,23 @@ public class CodeListener extends CBaseListener {
     @Override
     public void enterFunctionCallDeclarator(CParser.FunctionCallDeclaratorContext ctx) {
         ProgramInfo programInfo = ProgramInfo.getInstance();
+        ArrayList<FunctionCall> functionCallArrayList = programInfo.getFunctionCalls();
 
+        CParser.FunctionCallContext functionCallContext = ctx.functionCall();
+        int lineNumber = functionCallContext.getStart().getLine();
+        int charNumber = functionCallContext.getStart().getCharPositionInLine();
+        String functionName = functionCallContext.getChild(0).getText();
+        FunctionCall functionCall = new FunctionCall(functionName);
+        //System.out.println("function call decl: "+lineNumber+":"+charNumber);
 
+    }
+
+    @Override
+    public void enterFunctionCall(CParser.FunctionCallContext ctx) {
+        int lineNumber = ctx.getStart().getLine();
+        int charNumber = ctx.getStart().getCharPositionInLine();
+        FunctionCall functionCall = new FunctionCall(ctx.getChild(0).getText());
+        functionCall.setPosition(lineNumber, charNumber);
     }
 
     @Override
@@ -50,7 +68,8 @@ public class CodeListener extends CBaseListener {
         int sizeOfFunTree = functionTree.getChildCount();
         String functionName = functionTree.getChild(0).getText();
         String code = tokens.getText(ctx);
-        System.out.println(code);
+
+        //System.out.println(code);
         Function function = new Function(functionName, type, code);
         programInfo.currentlyReadingFunction = true;
         programInfo.currentFunction = function;

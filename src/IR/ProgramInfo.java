@@ -49,4 +49,12 @@ public class ProgramInfo {
     public ArrayList<Function> getFunctions() { return functions; }
 
     public ArrayList<Variable> getVariables() { return variables; }
+
+    public ArrayList<FunctionCall> getFunctionCalls() {
+        return functionCalls;
+    }
+
+    public void addFunctionCall(FunctionCall functionCall){
+        functionCalls.add(functionCall);
+    }
 }

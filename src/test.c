@@ -11,7 +11,7 @@ int fun(int a, int b, int c, int d){
 int main(){
     int x = 3;
     int y = 2;
-    y = x + y;
-    int z = add(x,y);
+    y = x;
+    int z = add(add(x,y),2);
     printf("%d + %d = %d\n",x,y,z);
 }
